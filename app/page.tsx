@@ -1,113 +1,166 @@
-import Image from 'next/image'
+'use client'
+
+import Contact from '@/app/components/contact'
+import FaqAccordion from '@/app/components/faq-accordion'
+import MediaTab from '@/app/components/media-tab'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/use-toast'
+import { VideoInfo } from '@/lib/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const schema = z.object({
+  url: z.coerce.string().trim().url({
+    message: 'Please enter a valid url',
+  }),
+})
+
+type Schema = z.infer<typeof schema>
 
 export default function Home() {
+  const { toast } = useToast()
+  const [loading, setLoading] = useState(false)
+  const [videoInfo, setVideoInfo] = useState<VideoInfo | null>(null)
+  const form = useForm<Schema>({
+    resolver: zodResolver(schema),
+  })
+  
+  const onSubmit = async (data: Schema) => {
+    setLoading(true)
+    const response = await axios.get(
+      '/api/video',
+      {
+        params: {
+          url: data.url,
+        },
+      },
+    )
+    
+    if (response.status === 200) {
+      setVideoInfo(response.data as VideoInfo)
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to get video info',
+        description: 'Please try again',
+      })
+    }
+    setLoading(false)
+  }
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div id={'home'} className={'flex flex-col items-center justify-center gap-8 md:gap-12'}>
+      <div className={'flex flex-col items-center justify-center gap-2'}>
+        <h1 className={'text-xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-center'}>
+          KTik - TikTok Downloader
+        </h1>
+        <p className={'text-sm sm:text-lg md:text-xl text-center'}>Download any video, image from TikTok</p>
+      </div>
+      
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={'flex flex-col justify-center gap-4 w-full sm:flex-row sm:gap-2 sm:w-3/4 lg:w-2/3'}
+        >
+          <FormField
+            control={form.control}
+            name='url'
+            defaultValue={''}
+            render={({ field }) => (
+              <FormItem className={'w-full flex flex-col gap-0 sm:gap-2'}>
+                <FormControl>
+                  <Input
+                    {...field}
+                    className={'border-primary'}
+                    placeholder={'Enter a url'}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button>
+            {
+              loading ? (
+                <div className={'flex items-center justify-center gap-2'}>
+                  <span
+                    className='animate-spin rounded-full h-4 w-4 border-b-2 border-background'
+                  />
+                </div>
+              ) : 'Download'
+            }
+          </Button>
+        </form>
+      </Form>
+      
+      {
+        videoInfo && (
+          <MediaTab videoInfo={videoInfo} />
+        )
+      }
+      
+      <div className={'h-[300px] w-full bg-secondary'}>
+        <div className={'h-full w-full flex items-center justify-center'}>
+          <h2 className={'text-2xl font-bold opacity-50'}>Google Ads</h2>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      
+      <div id={'about'} className={'w-full flex flex-col gap-4'}>
+        <h2 className={'text-center sm:text-start text-2xl font-bold'}>About KTik</h2>
+        <p className={'text-sm sm:text-lg md:text-xl'}>
+          KTik is a free online tool that allows you to download videos and images from TikTok.
+          It is very easy to use, just paste the link and download the video or image.
+          You can also download the audio from the video.
+        </p>
+        <i>
+          <b>Note:</b> KTik is not affiliated with TikTok or ByteDance Ltd. in any way. TikTok and all related logos,
+          designs, and elements are the trademarks of ByteDance Ltd. KTik does not host any pirated or copyright
+          content, we just support users to download videos and images from TikTok without watermarks. If you have any
+          questions, please contact us at{' '}
+          <a href={'mailto:huynhvahuuan3620@gmail.com'}
+             className={'text-primary font-bold'}>huynhvahuuan3620@gmail.com</a>
+          . We will respond as soon as possible. Thank you!
+        </i>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      
+      <div className={'w-full flex flex-col gap-4'}>
+        <h2 className={'text-center sm:text-start text-2xl font-bold'}>Download KTik for mobile</h2>
+        <p className={'text-sm sm:text-lg md:text-xl'}>
+          KTik is available for Android now. We are working hard to bring KTik to iOS users, you can use the web version instead.
+          <br/>
+          Download the app for free and enjoy its features.
+        </p>
+        
+        <div className={'flex flex-col sm:flex-row gap-4'}>
+          <Button className={'w-full sm:w-fit'}>
+            Download for Android
+          </Button>
+          <Button className={'w-full sm:w-fit'} disabled>
+            Download for iOS
+          </Button>
+        </div>
       </div>
-    </main>
+      
+      <div id={'faq'} className={'w-full flex flex-col gap-4'}>
+        <h2 className={'text-center sm:text-start text-2xl font-bold'}>Frequently Asked Questions</h2>
+        <FaqAccordion />
+      </div>
+      
+      <div className={'h-[300px] w-full bg-secondary'}>
+        <div className={'h-full w-full flex items-center justify-center'}>
+          <h2 className={'text-2xl font-bold opacity-50'}>Google Ads</h2>
+        </div>
+      </div>
+      
+      <div id={'contact'} className={'w-full flex flex-col gap-4'}>
+        <h2 className={'text-center sm:text-start text-2xl font-bold'}>Contact Information</h2>
+        <Contact />
+      </div>
+    </div>
   )
 }

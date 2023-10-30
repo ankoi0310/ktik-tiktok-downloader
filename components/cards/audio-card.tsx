@@ -31,7 +31,7 @@ const AudioCard = ({ videoInfo }: Props) => {
         isInProgress && <ProgressBar percentage={percentage} />
       }
       <div className={'flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-0 justify-between'}>
-        <div className={'w-full lg:w-2/3 flex gap-4'}>
+        <div className={'w-full lg:w-2/3 flex flex-col sm:flex-row gap-1 sm:gap-4'}>
           <div className={'border-2 border-primary rounded-md p-1'}>
             <Image
               src={videoInfo.dynamic_cover[0]}
@@ -42,8 +42,8 @@ const AudioCard = ({ videoInfo }: Props) => {
               className={'w-full h-auto object-cover'}
             />
           </div>
-          <div className='flex-1 flex flex-col gap-2 pt-2'>
-            <CardTitle className={'line-clamp-6 md:line-clamp-8'}>
+          <div className='flex-1 flex flex-col gap-1 sm:gap-2 p-0 sm:pt-2'>
+            <CardTitle className={'text-md sm:text-lg lg:text-xxl line-clamp-5 md:line-clamp-7'}>
               {videoInfo.description}
             </CardTitle>
             <CardDescription>

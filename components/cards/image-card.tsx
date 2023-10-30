@@ -95,7 +95,7 @@ const ImageCard = ({ imageUrls }: Props) => {
   
   return (
     <Card className={'flex flex-col gap-4 bg-secondary p-4'}>
-      <div className={'flex flex-row items-center justify-end gap-2'}>
+      <div className={'flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2'}>
         <Button
           onClick={handleSelectAll}
           variant={'outline'}

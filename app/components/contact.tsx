@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { socialLinks } from '@/lib/constants'
+import { SOCIAL_LINKS } from '@/lib/constants'
 import { LucideFacebook, LucideMail } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -37,7 +37,7 @@ const Contact = () => {
         </Label>
         <div className={'flex flex-row items-center gap-6'}>
           {
-            socialLinks.map((link, index) => (
+            SOCIAL_LINKS.map((link, index) => (
               <Link href={link.href} key={index}>
                 <link.icon size={24} ></link.icon>
               </Link>

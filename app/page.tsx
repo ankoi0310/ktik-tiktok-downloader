@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { VideoInfo } from '@/lib/types'
+import { signJWT } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useState } from 'react'
@@ -37,6 +38,7 @@ export default function Home() {
       {
         params: {
           url: data.url,
+          token: await signJWT(),
         },
       },
     )

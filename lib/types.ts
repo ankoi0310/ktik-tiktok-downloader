@@ -16,5 +16,5 @@ export type VideoInfo = {
 
 export type FAQ = {
   question: string;
-  answer: React.ReactNode;
+  answer: string;
 }

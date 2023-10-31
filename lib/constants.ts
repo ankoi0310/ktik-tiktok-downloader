@@ -1,6 +1,49 @@
 import { FAQ } from '@/lib/types'
 import { LucideFacebook, LucideGithub, LucideYoutube } from 'lucide-react'
 
+export const APP_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=it.cwk.ktik'
+
+export const SOCIAL_LINKS = [
+  {
+    href: 'https://www.facebook.com/code_with_koi',
+    icon: LucideFacebook,
+  },
+  {
+    href: 'https://www.github.com/ankoi0310',
+    icon: LucideGithub,
+  },
+  {
+    href: 'https://www.youtube.com/@ankoi0310',
+    icon: LucideYoutube,
+  }
+]
+
+export const RESOURSES_NAV_ITEMS = [
+  {
+    title: 'About',
+    to: 'about',
+  },
+  {
+    title: 'FAQ',
+    to: 'faq',
+  },
+  {
+    title: 'Contact',
+    to: 'contact',
+  },
+]
+
+export const LEGAL_NAV_ITEMS = [
+  {
+    title: 'Terms of Service',
+    href: 'terms',
+  },
+  {
+    title: 'Privacy Policy',
+    href: 'privacy',
+  },
+]
+
 export const FAQS: FAQ[] = [
   {
     question: 'How to download TikTok videos without watermark?',
@@ -55,19 +98,4 @@ export const FAQS: FAQ[] = [
     question: 'Can I download TikTok videos without watermark on iPhone?',
     answer: 'Yes, you can download TikTok videos without watermark on iPhone, iPad, Android phones, Windows and Mac computers.',
   },
-]
-
-export const socialLinks = [
-  {
-    href: 'https://www.facebook.com/code_with_koi',
-    icon: LucideFacebook,
-  },
-  {
-    href: 'https://www.github.com/ankoi0310',
-    icon: LucideGithub,
-  },
-  {
-    href: 'https://www.youtube.com/@ankoi0310',
-    icon: LucideYoutube,
-  }
 ]

@@ -1,3 +1,4 @@
+import { verify } from '@/lib/utils'
 import axios from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -6,7 +7,24 @@ const RAPID_API_KEY = process.env.RAPID_API_KEY
 const RAPID_API_HOST = process.env.RAPID_API_HOST
 
 export const GET = async (request: NextRequest) => {
-  const url = request.nextUrl.searchParams.get('url')!
+  const url = request.nextUrl.searchParams.get('url')
+  const token = request.nextUrl.searchParams.get('token')
+  
+  if (!url || !token) {
+    return NextResponse.json(
+      null,
+      { status: 400 },
+    )
+  }
+  
+  const isValid = await verify(token)
+  if (!isValid) {
+    return NextResponse.json(
+      null,
+      { status: 401 },
+    )
+  }
+  
   const response = await axios.get(url)
   const fullUrl = response.request.res.responseUrl
 

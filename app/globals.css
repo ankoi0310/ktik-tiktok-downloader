@@ -82,3 +82,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .nav-menu {
+    @apply flex flex-col gap-1 text-muted/50;
+  }
+}
+
+@layer utilities {
+  .nav-link {
+    @apply hover:text-primary-foreground;
+  }
+}

@@ -15,14 +15,19 @@ const AdSense = ({ adSlot }: AdSenseProps) => {
   }, [])
   
   return (
-    <ins
-      className='adsbygoogle adbanner-customize'
-      style={{ display: 'block' }}
-      data-ad-client='ca-pub-4452476152277124'
-      data-ad-slot={adSlot}
-      data-ad-format='auto'
-      data-full-width-responsive='true'
-    />
+    <>
+      <ins
+        className='adsbygoogle adbanner-customize'
+        style={{ display: 'block' }}
+        data-ad-client='ca-pub-4452476152277124'
+        data-ad-slot={adSlot}
+        data-ad-format='auto'
+        data-full-width-responsive='true'
+      ></ins>
+      {/*<script>*/}
+      {/*  (adsbygoogle = window.adsbygoogle || []).push({});*/}
+      {/*</script>*/}
+    </>
   )
 }
 export default AdSense

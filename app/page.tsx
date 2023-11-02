@@ -3,14 +3,17 @@
 import Contact from '@/app/components/contact'
 import FaqAccordion from '@/app/components/faq-accordion'
 import MediaTab from '@/app/components/media-tab'
+import AdSense from '@/components/adsense/AdSense'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import { APP_PLAY_STORE_URL } from '@/lib/constants'
 import { VideoInfo } from '@/lib/types'
 import { signJWT } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -106,11 +109,7 @@ export default function Home() {
         )
       }
       
-      <div className={'h-[300px] w-full bg-secondary'}>
-        <div className={'h-full w-full flex items-center justify-center'}>
-          <h2 className={'text-2xl font-bold opacity-50'}>Google Ads</h2>
-        </div>
-      </div>
+      <AdSense adSlot={'3561411455'} />
       
       <div id={'about'} className={'w-full flex flex-col gap-4'}>
         <h2 className={'text-center sm:text-start text-2xl font-bold'}>About KTik</h2>
@@ -140,10 +139,9 @@ export default function Home() {
         
         <div className={'flex flex-col sm:flex-row gap-4'}>
           <Button className={'w-full sm:w-fit'}>
-            Download for Android
-          </Button>
-          <Button className={'w-full sm:w-fit'} disabled>
-            Download for iOS
+            <Link href={APP_PLAY_STORE_URL} target={'_blank'}>
+              Download for Android
+            </Link>
           </Button>
         </div>
       </div>
@@ -153,11 +151,7 @@ export default function Home() {
         <FaqAccordion />
       </div>
       
-      <div className={'h-[300px] w-full bg-secondary'}>
-        <div className={'h-full w-full flex items-center justify-center'}>
-          <h2 className={'text-2xl font-bold opacity-50'}>Google Ads</h2>
-        </div>
-      </div>
+      <AdSense adSlot={'4771983590'} />
       
       <div id={'contact'} className={'w-full flex flex-col gap-4'}>
         <h2 className={'text-center sm:text-start text-2xl font-bold'}>Contact Information</h2>

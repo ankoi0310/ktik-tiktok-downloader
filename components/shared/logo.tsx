@@ -12,7 +12,6 @@ export const Logo = ({ width, height }: LogoProps) => {
     <Image
       src={logo}
       alt='logo'
-      priority
       width={width}
       height={height}
     />

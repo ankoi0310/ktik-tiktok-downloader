@@ -5,7 +5,7 @@ export const APP_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id
 
 export const SOCIAL_LINKS = [
   {
-    href: 'https://www.facebook.com/code_with_koi',
+    href: 'https://www.facebook.com/KOI0310.IT',
     icon: LucideFacebook,
   },
   {

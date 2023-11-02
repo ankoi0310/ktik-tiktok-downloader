@@ -6,19 +6,17 @@ type AdSenseProps = {
 
 const AdSense = ({ adSlot }: AdSenseProps) => {
   useEffect(() => {
-    if (window) {
-      try {
-        // @ts-ignore
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      } catch (err) {
-        console.log(err)
-      }
+    try {
+      // @ts-ignore
+      (window.adsbygoogle = window.adsbygoogle || []).push({})
+    } catch (err) {
+      console.log(err)
     }
   }, [])
   
   return (
     <ins
-      className='adsbygoogle'
+      className='adsbygoogle adbanner-customize'
       style={{ display: 'block' }}
       data-ad-client='ca-pub-4452476152277124'
       data-ad-slot={adSlot}

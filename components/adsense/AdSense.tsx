@@ -8,7 +8,12 @@ const AdSense = ({ adSlot }: AdSenseProps) => {
   useEffect(() => {
     if (window) {
       // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({})
+      try {
+        // @ts-ignore
+        (window.adsbygoogle = window.adsbygoogle || []).push({})
+      } catch (err) {
+        console.log(err)
+      }
     }
   }, [])
   

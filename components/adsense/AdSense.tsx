@@ -7,7 +7,6 @@ type AdSenseProps = {
 const AdSense = ({ adSlot }: AdSenseProps) => {
   useEffect(() => {
     if (window) {
-      // @ts-ignore
       try {
         // @ts-ignore
         (window.adsbygoogle = window.adsbygoogle || []).push({})
